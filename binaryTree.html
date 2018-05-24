@@ -111,29 +111,45 @@
 				return searchNode(root, key);
 			}
 
+			var findMinNode = function(node) {
+				if(node) {
+					while(node && node.left !== null){
+						node = node.left;
+					}
+					return node;
+				}
+				return null;
+			}
+
 			var removeNode = function(node, key) {
 				if (node === null) {
 					return null;
 				}
 
 				if (key < node.key){
-					node.left = removeNode(node.left, key);
+					node.left = removeNode(node.left, key);		//递归找到key对应的节点
 					return node;
 				} else if (key > node.key) {
 					node.right = removeNode(node.right, key);
 					return node;
 				} else {
-					if (node.left === null && node.right ===null) {
+					if (node.left === null && node.right ===null) {		//叶子节点直接删除
 						node = null;
 						return node;
 					}
-					if (node.left === null) {
+					if (node.left === null) {		//没有左子树，直接将右子树的引用赋值给删除节点
 						node = node.right;
 						return node;
-					} else if (node.right === null) {
+					} else if (node.right === null) {	//没有右子树，直接将左子树的引用赋值给删除节点
 						node = node.left;
 						return node;
 					}
+
+					//删除有两个孩子的节点
+					var aux = findMinNode(node.right);
+					node.key = aux.key;						//把右子树的最小节点的值给到被删掉节点的位置
+					node.right = removeNode(node.right, node.key)		//把右子树的最小节点删掉
+					return node;
 				}
 			}
 
@@ -158,7 +174,7 @@
 		console.log("min node is :" + binaryTree1.min());
 		console.log("max node is :" + binaryTree1.max());
 		console.log(binaryTree1.search(6) ? 'key is found' : 'key is not found');
-		binaryTree1.remove(10);
+		binaryTree1.remove(3);
 	</script>
 </body>
 </html>
