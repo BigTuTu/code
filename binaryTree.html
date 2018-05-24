@@ -39,13 +39,47 @@
 					insertNode(root, newNode);
 				}
 			};
+
+			var inOrderTraverseNode = function(node, callback){		//中序遍历实现
+				if (node !== null) {
+					inOrderTraverseNode(node.left, callback);
+					callback(node.key);
+					inOrderTraverseNode(node.right, callback);
+				}
+			};
+
+			this.inOrderTraverse = function(callback){		//中序遍历接口
+				inOrderTraverseNode(root, callback);
+			};
+
+			var preOrderTraverseNode = function(node, callback) {		//前序遍历实现
+				if (node !== null) {
+					callback(node.key);
+					preOrderTraverseNode(node.left, callback);
+					preOrderTraverseNode(node.right, callback);
+				}
+
+			}
+
+			this.preOrderTraverse = function(callback){		//前序遍历接口
+				preOrderTraverseNode(root, callback);
+			};
+
 		}
 
 		var nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13];
 		var binaryTree1 = new BinaryTree();
-		nodes.forEach(function(item){
-			binaryTree1.insert(item);
+		nodes.forEach(function(key){
+			binaryTree1.insert(key);
 		});
+
+		var callback = function(key) {
+			console.log(key);
+		};
+
+		//binaryTree1.inOrderTraverse(callback);
+
+		binaryTree1.preOrderTraverse(callback);
 
 	</script>
 </body>
