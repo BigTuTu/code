@@ -65,6 +65,82 @@
 				preOrderTraverseNode(root, callback);
 			};
 
+			var minNode = function(node) {					//查找最小节点的实现
+				if (node) {
+					while (node && node.left !== null) {
+						node = node.left;
+					}
+					return node.key;
+				}	
+				return null;
+			}
+
+			this.min = function() {		//查找最小节点的接口
+				return minNode(root);
+			}
+
+			var maxNode = function(node) {		//查找最大节点的实现
+				if(node) {
+					while(node && node.right !== null) {
+						node = node.right;
+					}
+					return node.key;
+				}
+				return null;
+			}
+
+			this.max = function() {		//查找最大节点的接口
+				return maxNode(root);
+			}
+
+			var searchNode = function(node, key) {		//查找节点是否存在
+				if (node === null) {
+					return false;
+				}
+
+				if (key < node.key) {
+					return searchNode(node.left, key);		
+				} else if (key > node.key) {
+					return searchNode(node.right, key);
+				}else {
+					return true;
+				}
+			}
+
+			this.search = function(key) {	//查找节点是否存在的接口
+				return searchNode(root, key);
+			}
+
+			var removeNode = function(node, key) {
+				if (node === null) {
+					return null;
+				}
+
+				if (key < node.key){
+					node.left = removeNode(node.left, key);
+					return node;
+				} else if (key > node.key) {
+					node.right = removeNode(node.right, key);
+					return node;
+				} else {
+					if (node.left === null && node.right ===null) {
+						node = null;
+						return node;
+					}
+					if (node.left === null) {
+						node = node.right;
+						return node;
+					} else if (node.right === null) {
+						node = node.left;
+						return node;
+					}
+				}
+			}
+
+			this.remove = function(key) {
+				return removeNode(root, key);
+			}
+
 		}
 
 		var nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13];
@@ -77,10 +153,12 @@
 			console.log(key);
 		};
 
-		//binaryTree1.inOrderTraverse(callback);
-
-		binaryTree1.preOrderTraverse(callback);
-
+		//binaryTree1.inOrderTraverse(callback);        //实例调用中序遍历接口
+		//binaryTree1.preOrderTraverse(callback);		//实例调用前序遍历接口
+		console.log("min node is :" + binaryTree1.min());
+		console.log("max node is :" + binaryTree1.max());
+		console.log(binaryTree1.search(6) ? 'key is found' : 'key is not found');
+		binaryTree1.remove(10);
 	</script>
 </body>
 </html>
