@@ -3,6 +3,9 @@
 <head>
 	<title>hello world</title>
 	<style type="text/css">
+			* {
+		  margin: 0;
+		}
 		[title = "p"] {
 			color: red;
 			background-color: green;
@@ -32,10 +35,10 @@
 			border-collapse: collapse;
 			width: 50%;
 		}
+
 		table,th,td{
-			
 			height: 40px;
-			border:1px solid red;
+			border:1px solid blue;
 		}
 		td {
 			background-color:green;
@@ -64,7 +67,7 @@
 			<li>咖啡</li>
 			<li>茶</li>
 			<li>可口可乐</li>
-			</ul>
+			</ul>		
 
 			<ul class="square">
 			<li>咖啡</li>
@@ -98,6 +101,26 @@
 
 	<script type="text/javascript">
 		//alert("hello world");
+		function addButtons(numButtons) {
+  	for (var i = 0; i < numButtons; i++) {
+		    var button = document.createElement('input');
+		    button.type = 'button';
+		    button.value = 'Button ' + (i + 1);
+		    // HERE'S THE FIX:
+		    // Employ the Immediately-Invoked Function Expression (IIFE)
+		    // pattern to achieve the desired behavior:
+		    button.onclick = function(buttonIndex) {
+		      return function() {
+		        alert('Button ' + (buttonIndex + 1) + ' clicked');
+		      };
+		    }(i);
+		    document.body.appendChild(button);
+		    document.body.appendChild(document.createElement('br'));
+		  }
+		}
+
+	window.onload = function() { addButtons(5); };
+
 
 
 		console.log("hello, world");
